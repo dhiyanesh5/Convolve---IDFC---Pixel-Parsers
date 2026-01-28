@@ -1,0 +1,94 @@
+{
+  "dealer_name": "Jai Kudargarhi Tractor",
+  "model_name": "",
+  "horse_power": 0,
+  "asset_cost": 240000,
+  "signature": {
+    "present": true,
+    "bbox": [
+      775,
+      1297,
+      1024,
+      1391
+    ],
+    "confidence": 0.34606224298477173
+  },
+  "stamp": {
+    "present": false,
+    "bbox": [],
+    "confidence": 0.0
+  },
+  "metadata": {
+    "overall_confidence": 0.2450887014468511,
+    "sources_used": {
+      "ml": 1,
+      "tesseract": 2,
+      "vlm": 0,
+      "none": 3
+    },
+    "field_sources": {
+      "dealer_name": "tesseract",
+      "model_name": "none",
+      "horse_power": "none",
+      "asset_cost": "tesseract",
+      "signature": "ml",
+      "stamp": "none"
+    }
+  },
+  "debug": {
+    "all_predictions": {
+      "dealer_name": {
+        "ml": {
+          "value": null,
+          "bbox": [
+            325,
+            128,
+            1059,
+            201
+          ],
+          "confidence": 0.7588794827461243,
+          "source": "ml_yolo11"
+        },
+        "tesseract": {
+          "value": "Jai Kudargarhi Tractor",
+          "bbox": [
+            325,
+            128,
+            1059,
+            201
+          ],
+          "confidence": 0.7588794827461243,
+          "source": "tesseract_ml_guided"
+        }
+      },
+      "model_name": {},
+      "horse_power": {},
+      "asset_cost": {
+        "ml": {
+          "value": null,
+          "bbox": [
+            824,
+            1192,
+            1025,
+            1238
+          ],
+          "confidence": 0.36559048295021057,
+          "source": "ml_yolo11"
+        },
+        "tesseract": {
+          "value": 240000,
+          "bbox": [
+            824,
+            1192,
+            1025,
+            1238
+          ],
+          "confidence": 0.36559048295021057,
+          "source": "tesseract_ml_guided"
+        }
+      }
+    }
+  },
+  "doc_id": "test",
+  "processing_time_sec": 7.55
+}
