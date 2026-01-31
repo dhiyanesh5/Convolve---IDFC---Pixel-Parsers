@@ -61,8 +61,8 @@ st.markdown("""
 # --- SIDEBAR BRANDING ---
 with st.sidebar:
     # Check if logo exists, otherwise skip to prevent error
-    if os.path.exists("utils\idfc.avif"):
-        st.image("utils\idfc.avif", use_container_width=True)
+    if os.path.exists("utils/idfc.avif"):
+        st.image("utils/idfc.avif", use_container_width=True)
     else:
         st.markdown("## IDFC FIRST BANK")
     
