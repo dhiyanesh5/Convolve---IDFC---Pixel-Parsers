@@ -62,7 +62,7 @@ st.markdown("""
 with st.sidebar:
     # Check if logo exists, otherwise skip to prevent error
     if os.path.exists("utils/idfc.avif"):
-        st.image("utils/idfc.avif", use_container_width=True)
+        st.image("utils/idfc.avif", width='stretch')
     else:
         st.markdown("## IDFC FIRST BANK")
     
