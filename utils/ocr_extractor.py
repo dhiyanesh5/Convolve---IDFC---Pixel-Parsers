@@ -11,6 +11,8 @@ import numpy as np
 from PIL import Image, ImageEnhance
 import re
 import cv2
+import shutil  # <--- WAS MISSING
+import os      # <--- WAS MISSING
 
 logger = logging.getLogger(__name__)
 
@@ -21,7 +23,8 @@ except ImportError:
     TESSERACT_AVAILABLE = False
     logger.warning("pytesseract not available. Install: pip install pytesseract")
 
-# IMPORTANT: Set default Tesseract path for Windows
+# IMPORTANT: Set default Tesseract path for Windows (Just in case)
+# The __init__ logic below will override this if it finds it elsewhere.
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 
@@ -38,13 +41,28 @@ class ImprovedTesseractOCR:
         """
         logger.info("Initializing Improved Tesseract OCR...")
         
-        if not TESSERACT_AVAILABLE:
-            raise ImportError("pytesseract not available. Install: pip install pytesseract")
-        
-        # Set tesseract command path if provided
+        # 1. AUTO-DETECT TESSERACT (Crucial for Streamlit Cloud)
+        system_tesseract = shutil.which("tesseract") # Checks system PATH (Linux/Mac)
+    
         if tesseract_cmd:
-            pytesseract.pytesseract.tesseract_cmd = tesseract_cmd
-            logger.info(f"✓ Tesseract path set to: {tesseract_cmd}")
+            # User provided specific path
+            self.tesseract_cmd = tesseract_cmd
+        elif system_tesseract:
+            # Found in system PATH (This triggers on Streamlit Cloud)
+            self.tesseract_cmd = system_tesseract
+        else:
+            # Fallback for Local Windows Dev
+            self.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+    
+        # Set the command for pytesseract
+        pytesseract.pytesseract.tesseract_cmd = self.tesseract_cmd
+        
+        # Verify installation
+        if not os.path.exists(self.tesseract_cmd) and not system_tesseract:
+            logger.error(f"Tesseract not found at: {self.tesseract_cmd}")
+            # Don't crash here, just log error so app keeps running
+        else:
+             logger.info(f"✓ Tesseract path set to: {self.tesseract_cmd}")
         
         self.lang = lang
         
@@ -54,8 +72,8 @@ class ImprovedTesseractOCR:
             logger.info(f"✓ Tesseract version: {version}")
             logger.info(f"✓ Languages: {lang}")
         except Exception as e:
-            logger.error(f"Tesseract test failed: {e}")
-            raise
+            logger.warning(f"Tesseract test warning: {e}")
+            # Do not raise here, allow app to continue even if OCR fails temporarily
         
         # Devanagari digit mapping
         self.devanagari_digits = {
